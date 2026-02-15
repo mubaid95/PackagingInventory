@@ -1,0 +1,133 @@
+﻿<UserControl x:Class="PackagingInventory.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="900"
+             Language="en-IN">
+
+    <Grid Margin="30" Background="#f8f9fa">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="📦 Inventory Dashboard"
+                   FontSize="32"
+                   FontWeight="Bold"
+                   Foreground="#2c3e50"
+                   Margin="0,0,0,25"/>
+
+        <!-- Dashboard Content -->
+        <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Top">
+
+            <!-- 1️⃣ Total Boxes Remaining -->
+            <Border Background="#ffffff" CornerRadius="10" Padding="25" BorderBrush="#dcdcdc" BorderThickness="1" HorizontalAlignment="Stretch" Margin="0,0,0,20">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="Total Boxes Remaining" 
+                               FontSize="22" 
+                               FontWeight="Bold" 
+                               Foreground="#7f8c8d"
+                               TextAlignment="Center"/>
+                    <TextBlock Text="{Binding TotalBoxes}" 
+                               FontSize="60" 
+                               FontWeight="ExtraBold" 
+                               Foreground="#2c3e50"
+                               TextAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- 2️⃣ Boxes Remaining by Type -->
+            <Border Background="White" CornerRadius="10" Padding="20" BorderBrush="#e0e0e0" BorderThickness="1" Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Boxes Remaining by Type" 
+                               FontSize="18" 
+                               FontWeight="Bold" 
+                               Foreground="#2c3e50"
+                               Margin="0,0,0,10"/>
+
+                    <ItemsControl ItemsSource="{Binding BoxesByType}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#fdfdfd" 
+                                        BorderBrush="#dcdcdc" 
+                                        BorderThickness="1" 
+                                        CornerRadius="6"
+                                        Padding="10" 
+                                        Margin="5">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Key}" 
+                                                   FontWeight="SemiBold" 
+                                                   Foreground="#34495e" 
+                                                   FontSize="14"/>
+                                        <TextBlock Text="{Binding Value}" 
+                                                   FontSize="20" 
+                                                   FontWeight="Bold" 
+                                                   Foreground="#2980b9"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- 3️⃣ Purchase Summary -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                <Border Background="White" CornerRadius="8" Padding="15" Width="250" BorderBrush="#e0e0e0" BorderThickness="1" Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="Total Purchase Value" FontSize="14" Foreground="#7f8c8d" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TotalPurchase, StringFormat=C}" FontSize="24" FontWeight="Bold" Foreground="#2980b9"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="White" CornerRadius="8" Padding="15" Width="250" BorderBrush="#e0e0e0" BorderThickness="1" Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="Payment Made" FontSize="14" Foreground="#7f8c8d" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TotalPaymentMade, StringFormat=C}" FontSize="24" FontWeight="Bold" Foreground="#c0392b"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="White" CornerRadius="8" Padding="15" Width="250" BorderBrush="#e0e0e0" BorderThickness="1" Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="Outstanding Payment" FontSize="14" Foreground="#7f8c8d" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TotalOutstandingPayment, StringFormat=C}" FontSize="24" FontWeight="Bold" Foreground="#e67e22"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- 4️⃣ Sales Summary -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Border Background="White" CornerRadius="8" Padding="15" Width="250" BorderBrush="#e0e0e0" BorderThickness="1" Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="Total Sales Value" FontSize="14" Foreground="#7f8c8d" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TotalSales, StringFormat=C}" FontSize="24" FontWeight="Bold" Foreground="#27ae60"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="White" CornerRadius="8" Padding="15" Width="250" BorderBrush="#e0e0e0" BorderThickness="1" Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="Payment Received" FontSize="14" Foreground="#7f8c8d" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TotalPaymentReceived, StringFormat=C}" FontSize="24" FontWeight="Bold" Foreground="#16a085"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="White" CornerRadius="8" Padding="15" Width="250" BorderBrush="#e0e0e0" BorderThickness="1" Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="Outstanding Receivable" FontSize="14" Foreground="#7f8c8d" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TotalOutstandingReceivable, StringFormat=C}" FontSize="24" FontWeight="Bold" Foreground="#d35400"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
