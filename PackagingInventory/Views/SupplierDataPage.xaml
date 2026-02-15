@@ -21,30 +21,8 @@
                       SelectionChanged="SupplierComboBox_SelectionChanged"/>
         </StackPanel>
 
-        <!-- Purchase History -->
-        <GroupBox Header="Purchase History" Grid.Row="1" FontWeight="Bold" Margin="0,10,0,10">
-            <DataGrid x:Name="PurchaseHistoryGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="120"/>
-                    <DataGridTextColumn Header="Box Details" Binding="{Binding BoxTypeDisplay}" Width="*"/>
-                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="150"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
-
-        <!-- Payment History -->
-        <GroupBox Header="Payment History" Grid.Row="2" FontWeight="Bold" Margin="0,10,0,10">
-            <DataGrid x:Name="PaymentHistoryGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="120"/>
-                    <DataGridTextColumn Header="Mode" Binding="{Binding Mode}" Width="100"/>
-                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="150"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
-
         <!-- Summary Section -->
-        <Border Grid.Row="3" Background="#FFFFFF" CornerRadius="10" Padding="15" Margin="0,10,0,0" BorderBrush="#DDD" BorderThickness="1">
+        <Border Grid.Row="1" Background="#FFFFFF" CornerRadius="10" Padding="15" Margin="0,10,0,0" BorderBrush="#DDD" BorderThickness="1">
             <StackPanel>
                 <TextBlock Text="Supplier Summary" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
 
@@ -64,5 +42,27 @@
                 </StackPanel>
             </StackPanel>
         </Border>
+
+        <!-- Payment History -->
+        <GroupBox Header="Payment History" Grid.Row="2" FontWeight="Bold" Margin="0,10,0,10">
+            <DataGrid x:Name="PaymentHistoryGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="120"/>
+                    <DataGridTextColumn Header="Mode" Binding="{Binding Mode}" Width="100"/>
+                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="150"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+
+        <!-- Purchase History -->
+        <GroupBox Header="Purchase History" Grid.Row="3" FontWeight="Bold" Margin="0,10,0,10">
+            <DataGrid x:Name="PurchaseHistoryGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="120"/>
+                    <DataGridTextColumn Header="Box Details" Binding="{Binding BoxTypeDisplay}" Width="*"/>
+                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="150"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
     </Grid>
 </UserControl>
