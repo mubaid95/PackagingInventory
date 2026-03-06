@@ -4,65 +4,120 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="900">
+             d:DesignHeight="600" d:DesignWidth="1000">
 
-    <Grid Background="#F8F8F8" Margin="20">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Supplier selection -->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,20">
-            <TextBlock Text="Select Supplier:" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
-            <ComboBox x:Name="SupplierComboBox" Width="200" Margin="10,0,0,0"
+        <!-- Supplier Dropdown -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,15">
+            <TextBlock Text="Select Supplier: " VerticalAlignment="Center" FontSize="16" Margin="0,0,10,0"/>
+            <ComboBox x:Name="SupplierComboBox" Width="250"
                       SelectionChanged="SupplierComboBox_SelectionChanged"/>
         </StackPanel>
 
-        <!-- Summary Section -->
-        <Border Grid.Row="1" Background="#FFFFFF" CornerRadius="10" Padding="15" Margin="0,10,0,0" BorderBrush="#DDD" BorderThickness="1">
-            <StackPanel>
-                <TextBlock Text="Supplier Summary" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+        <!-- Middle Section -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Total Purchase Value:" FontSize="16" Width="200"/>
-                    <TextBlock x:Name="TotalPurchaseText" FontSize="16" FontWeight="Bold"/>
+            <!-- Purchase History -->
+            <StackPanel Grid.Column="0">
+
+                <TextBlock Text="📦 Boxes Purchased" FontSize="18" FontWeight="Bold" Margin="0,0,0,5"/>
+
+                <DataGrid x:Name="PurchaseHistoryGrid"
+                          AutoGenerateColumns="False"
+                          Height="250"
+                          Margin="0,0,0,10">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="120"/>
+                        <DataGridTextColumn Header="Box Details" Binding="{Binding BoxTypeDisplay}" Width="*"/>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="100"/>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+                <!-- Total Boxes Purchased -->
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                    <TextBlock Text="Total Boxes Purchased: " FontWeight="Bold" FontSize="14"/>
+                    <TextBlock x:Name="TotalBoxesPurchasedText" FontSize="14"/>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Total Payment Made:" FontSize="16" Width="200"/>
-                    <TextBlock x:Name="TotalPaymentText" FontSize="16" FontWeight="Bold"/>
-                </StackPanel>
+                <!-- Boxes Purchased By Type -->
+                <ItemsControl x:Name="BoxesPurchasedByTypePanel">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Key}" Width="180"/>
+                                <TextBlock Text="{Binding Value}" FontWeight="Bold"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Outstanding Amount:" FontSize="16" Width="200"/>
-                    <TextBlock x:Name="OutstandingText" FontSize="16" FontWeight="Bold" Foreground="Red"/>
-                </StackPanel>
             </StackPanel>
-        </Border>
 
-        <!-- Payment History -->
-        <GroupBox Header="Payment History" Grid.Row="2" FontWeight="Bold" Margin="0,10,0,10">
-            <DataGrid x:Name="PaymentHistoryGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="120"/>
-                    <DataGridTextColumn Header="Mode" Binding="{Binding Mode}" Width="100"/>
-                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="150"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
+            <!-- Payment History -->
+            <StackPanel Grid.Column="1" Margin="20,0,0,0">
 
-        <!-- Purchase History -->
-        <GroupBox Header="Purchase History" Grid.Row="3" FontWeight="Bold" Margin="0,10,0,10">
-            <DataGrid x:Name="PurchaseHistoryGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="120"/>
-                    <DataGridTextColumn Header="Box Details" Binding="{Binding BoxTypeDisplay}" Width="*"/>
-                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="150"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
+                <TextBlock Text="💰 Payment History" FontSize="18" FontWeight="Bold" Margin="0,0,0,5"/>
+
+                <DataGrid x:Name="PaymentHistoryGrid"
+                          AutoGenerateColumns="False"
+                          Height="250">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="120"/>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="100"/>
+                        <DataGridTextColumn Header="Mode" Binding="{Binding Mode}" Width="120"/>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </StackPanel>
+
+        </Grid>
+
+        <!-- Bottom Summary -->
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,20,0,0">
+
+            <StackPanel Margin="0,0,40,0">
+                <TextBlock Text="Total Purchase Value"
+                           FontSize="16"
+                           FontWeight="Bold"/>
+                <TextBlock x:Name="TotalPurchaseText"
+                           FontSize="20"/>
+            </StackPanel>
+
+            <StackPanel Margin="0,0,40,0">
+                <TextBlock Text="Payment Made"
+                           FontSize="16"
+                           FontWeight="Bold"/>
+                <TextBlock x:Name="TotalPaymentText"
+                           FontSize="20"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Outstanding"
+                           FontSize="16"
+                           FontWeight="Bold"/>
+                <TextBlock x:Name="OutstandingText"
+                           FontSize="20"
+                           Foreground="Red"/>
+            </StackPanel>
+
+        </StackPanel>
+
     </Grid>
 </UserControl>

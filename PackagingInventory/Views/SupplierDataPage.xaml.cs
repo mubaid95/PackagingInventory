@@ -41,16 +41,19 @@ namespace PackagingInventory.Views
 
         private void LoadSupplierData(string supplier)
         {
+
+            var rawPurchases = _excelService.GetBoxesReceived()
+                                    .Where(x => x.PartyName == supplier)
+                                    .ToList();
             // Load purchase history
-            var purchases = _excelService.GetBoxesReceived()
-                                         .Where(x => x.PartyName == supplier)
-                                         .Select(x => new
-                                         {
-                                             Date = x.Date.ToShortDateString(),
-                                             BoxTypeDisplay = string.Join(", ", x.BoxType.Select(b => $"{b.Key}: {b.Value}")),
-                                             x.Amount
-                                         })
-                                         .ToList();
+            var purchases = rawPurchases
+                            .Select(x => new
+                            {
+                                Date = x.Date.ToShortDateString(),
+                                BoxTypeDisplay = string.Join(", ", x.BoxType.Select(b => $"{b.Key}: {b.Value}")),
+                                x.Amount
+                            })
+                            .ToList();
 
             PurchaseHistoryGrid.ItemsSource = purchases;
 
@@ -62,8 +65,21 @@ namespace PackagingInventory.Views
 
             PaymentHistoryGrid.ItemsSource = payments;
 
+            int totalBoxesPurchased = rawPurchases
+                              .SelectMany(x => x.BoxType)
+                              .Sum(bt => bt.Value);
+
+            TotalBoxesPurchasedText.Text = totalBoxesPurchased.ToString();
+
+            var boxesByType = rawPurchases
+                              .SelectMany(x => x.BoxType)
+                              .GroupBy(bt => bt.Key)
+                              .ToDictionary(g => g.Key, g => g.Sum(bt => bt.Value));
+
+            BoxesPurchasedByTypePanel.ItemsSource = boxesByType;
+
             // Summary
-            decimal totalPurchase = purchases.Sum(x => x.Amount);
+            decimal totalPurchase = rawPurchases.Sum(x => x.Amount);
             decimal totalPaid = payments.Sum(x => x.Amount);
             decimal outstanding = totalPurchase - totalPaid;
 

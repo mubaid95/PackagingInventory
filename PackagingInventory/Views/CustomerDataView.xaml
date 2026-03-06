@@ -33,6 +33,24 @@
                         <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="100"/>
                     </DataGrid.Columns>
                 </DataGrid>
+
+                <!-- Total Boxes Sold -->
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                    <TextBlock Text="Total Boxes Sold: " FontWeight="Bold" FontSize="14"/>
+                    <TextBlock x:Name="TotalBoxesSoldText" FontSize="14"/>
+                </StackPanel>
+
+                <!-- Boxes Sold by Type -->
+                <ItemsControl x:Name="BoxesSoldByTypePanel">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Key}" Width="180"/>
+                                <TextBlock Text="{Binding Value}" FontWeight="Bold"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Margin="20,0,0,0">

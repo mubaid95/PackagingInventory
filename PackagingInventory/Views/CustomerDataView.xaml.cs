@@ -43,6 +43,19 @@ namespace PackagingInventory.Views
                 .Where(x => x.PartyName.Equals(customer, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
+            int totalBoxesSold = soldRecords
+                .SelectMany(x => x.BoxType)
+                .Sum(bt => bt.Value);
+
+            var boxesByType = soldRecords
+                .SelectMany(x => x.BoxType)
+                .GroupBy(bt => bt.Key)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Sum(bt => bt.Value)
+                );
+
+
             var paymentRecords = _excelService.GetPaymentsReceived()
                 .Where(x => x.PartyName.Equals(customer, StringComparison.OrdinalIgnoreCase))
                 .ToList();
@@ -56,6 +69,7 @@ namespace PackagingInventory.Views
 
             SalesGrid.ItemsSource = soldDisplay;
             PaymentGrid.ItemsSource = paymentRecords;
+            BoxesSoldByTypePanel.ItemsSource = boxesByType;
 
             decimal totalSale = soldRecords.Sum(x => x.Amount);
             decimal totalPayment = paymentRecords.Sum(x => x.Amount);
@@ -64,6 +78,7 @@ namespace PackagingInventory.Views
             TotalSaleText.Text = totalSale.ToString("C");
             PaymentReceivedText.Text = totalPayment.ToString("C");
             OutstandingText.Text = outstanding.ToString("C");
+            TotalBoxesSoldText.Text = totalBoxesSold.ToString("C");
         }
     }
 }
