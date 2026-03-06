@@ -71,8 +71,11 @@ namespace PackagingInventory.Services
                     int qty = 0;
                     if (!cellValue.IsEmpty())
                     {
-                        double val = cellValue.GetDouble();
-                        qty = (int)val;
+                        double val;
+                        if (double.TryParse(cellValue.GetValue<string>(), out val))
+                        {
+                            qty = (int)val;
+                        }
                     }
 
                     boxDict[typeName] = qty;
